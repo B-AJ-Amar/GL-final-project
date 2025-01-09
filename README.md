@@ -4,55 +4,111 @@
 
 **project ID :** 13
 
+---
+
+## Table of Contents
+- [Software Engineering Project Documentation](#software-engineering-project-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Use Case Diagram](#use-case-diagram)
+    - [Diagram](#diagram)
+    - [Textual Description](#textual-description)
+      - [Actors](#actors)
+      - [Use Cases](#use-cases)
+  - [Sequence Diagram](#sequence-diagram)
+    - [Diagrams](#diagrams)
+    - [Description](#description)
+  - [Analysis Class Diagram](#analysis-class-diagram)
+    - [Diagram](#diagram-1)
+    - [Description](#description-1)
+  - [Class Diagram](#class-diagram)
+    - [Diagram](#diagram-2)
+    - [Description](#description-2)
+  - [State-Action Diagram](#state-action-diagram)
+    - [Diagram](#diagram-3)
+    - [Description](#description-3)
+  - [Deployment Diagram](#deployment-diagram)
+    - [Diagram](#diagram-4)
+    - [Description](#description-4)
+
+---
+
 ## Project Overview
 
 This project involves the development of a chatbot system capable of interacting with users, processing their queries, and providing meaningful responses. The chatbot integrates natural language processing and text-to-speech features, ensuring an intuitive user experience. The documentation includes UML diagrams, textual descriptions, and the architectural overview of the system.
 
 ---
 
-## Table of Contents
-1. [Use Case Diagram](#use-case-diagram)
-2. [Analysis Class Diagram](#analysis-class-diagram)
-3. [Class Diagram](#class-diagram)
-4. [State-Action Diagram](#state-action-diagram)
-5. [Deployment Diagram](#deployment-diagram)
-6. [Dependency Diagram](#dependency-diagram)
-7. [Component Diagram](#component-diagram)
 
----
 
 ## Use Case Diagram
 
-### Use Case Diagram
+### Diagram
 ![Use Case Diagram](./img/use_case.png)
 
 ### Textual Description
 
-#### Actors:
+#### Actors
 - **User**: Interacts with the chatbot for queries or tasks.
 - **Administrator**: Manages system configurations and documents.
 
-#### Use Cases:
+#### Use Cases
 1. **Query Chatbot**
-   - Description: The user interacts with the chatbot to ask questions or get information.
-   - Actor: User
-   - Precondition: The chatbot system is operational.
-   - Steps:
+   - **Description:** The user interacts with the chatbot to ask questions or get information.
+   - **Actor:** User
+   - **Precondition:** The chatbot system is operational.
+   - **Steps:**
      1. User submits a query.
      2. Chatbot processes the query.
      3. Chatbot provides a response.
-   - Postcondition: The user receives a response.
+   - **Postcondition:** The user receives a response.
 
 2. **Manage System**
-   - Description: The administrator manages the chatbot system (e.g., uploading documents, managing users).
-   - Actor: Administrator
-   - Precondition: The administrator has access rights.
-   - Steps:
+   - **Description:** The administrator manages the chatbot system (e.g., uploading documents, managing users).
+   - **Actor:** Administrator
+   - **Precondition:** The administrator has access rights.
+   - **Steps:**
      1. Administrator logs in.
      2. Administrator performs the required action.
-   - Postcondition: The system is updated.
+   - **Postcondition:** The system is updated.
 
 ---
+## Sequence Diagram
+
+### Diagrams
+![Sequence Diagram](./img/sec1.png)
+![Sequence Diagram](./img/sec2.png)
+![Sequence Diagram](./img/sec3.png)
+
+### Description
+
+1. **Voice Chat :**
+This sequence diagram describes the workflow when a user interacts with the chatbot via voice:
+   - **User Interface**: The user sends a vocal query through the interface.
+   - **Text-to-Speech Model**: Converts the voice input to text.
+   - **Server**: Receives the text query and checks if the user has an active session. If no session exists, it creates a new one.
+   - **Embedding Model**: Embeds the query to prepare it for vectorized semantic matching.
+   - **Vector Database**: Queries the database for relevant information.
+   - **LLM (Language Model)**: Processes the query and generates an appropriate response.
+   - **Relational Database & Cache**: Updates the user session or other application states as required.
+   - **Speech-to-Text Model**: Converts the text response back to speech for the user.
+   - **Return to User**: The system responds to the user in voice format.
+
+1. **Text Chat :**
+This sequence diagram shows the flow when a user interacts with the chatbot using text (it's similar to the `Voice Chat seq diagram` but we dont need to convert between text and voice )
+
+
+1. **Add documents:**
+This sequence diagram explains the process of adding a new document to the knowledge base:
+   - **User Interface**: The user provides a document to add to the system.
+   - **Server**: Checks user(admin) authentication and active session. If the user is not authenticated, it returns an error.
+   - **Embedding Model**: Processes the document by splitting it into chunks and embedding them for vectorized representation.
+   - **Vector Database**: Stores the vectorized chunks for semantic search.
+   - **Return to User**: Confirms that the document was successfully added, or returns an error if the operation fails.
+
+
+---
+
 
 ## Analysis Class Diagram
 
@@ -79,9 +135,9 @@ The conceptual class diagram identifies the high-level components and their rela
 
 ### Description
 The class diagram provides implementation-level details, defining attributes and methods for each class. The key components include:
-- **User**: Manages user-related information (e.g., username, password).
+- **User**: Manages user-related information (e.g., username, password) and the administration tasks.
 - **Server**: Processes user requests using methods like `sendRequest(type, message)`.
-- **Language Model**: Generates responses with `answer(string)` and manages models with `setModel(str)`.
+- **Language Model**: Generates responses with `answer(string)`.
 - **Vector Database**: Handles database connections, queries, and storage.
 
 ---
@@ -90,7 +146,7 @@ The class diagram provides implementation-level details, defining attributes and
 
 ### Diagram
 ![State-Action Diagram](./img/state_action.png)
-
+### Description
 The state-action diagram captures the dynamic behavior of the chatbot system. It consists of two primary actions:
 
 1. **Ask Question**:
@@ -119,28 +175,4 @@ The deployment diagram illustrates the physical architecture of the system, incl
 - **CI/CD Server**: automates testing , building , and deployment.
 - **GitHub Repository Registry**: Stores the application code and manages version control.
 
----
-
-## Dependency Diagram
-
-### Diagram
-![Dependency Diagram](./img/dependency_diagram.png)
-
-### Description
-The dependency diagram highlights the dependencies between components, such as:
-- **Server depends on Language Model** for query processing.
-- **Embedding Model depends on Vector Database** for semantic search.
-
----
-
-## Component Diagram
-
-### Diagram
-![Component Diagram](./img/component_diagram.png)
-
-### Description
-The component diagram provides a high-level view of system modules and their interactions, focusing on:
-- **UI Module**: Handles user interaction.
-- **Backend Module**: Processes requests and responses.
-- **Database Module**: Manages data storage and retrieval.
 
