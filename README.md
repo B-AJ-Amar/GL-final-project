@@ -89,13 +89,21 @@ The class diagram provides implementation-level details, defining attributes and
 ## State-Action Diagram
 
 ### Diagram
-![State-Action Diagram](./img/state_action_diagram.png)
+![State-Action Diagram](./img/state_action.png)
 
-### Description
-The state-action diagram captures the dynamic behavior of the chatbot system. It shows transitions between states such as:
-1. **Idle**: Waiting for user input.
-2. **Processing**: Analyzing user queries or documents.
-3. **Responding**: Providing feedback or output to the user.
+The state-action diagram captures the dynamic behavior of the chatbot system. It consists of two primary actions:
+
+1. **Ask Question**:
+   - **Listening**: The system waits for user input, either in text or voice.
+   - **Converting**: For voice input, the system converts speech to text.
+   - **Processing**: Analyzes the query and prepares a response.
+   - **Responding**: Sends the answer back to the user.
+
+
+2. **Manage Document**:
+   - **Listing**: The system lists the documents available for management.
+   - **Processing**: Processes actions such as adding, updating, or deleting documents.
+   - **Saving**: Updates the vector database to reflect the changes.
 
 ---
 
@@ -107,8 +115,9 @@ The state-action diagram captures the dynamic behavior of the chatbot system. It
 ### Description
 The deployment diagram illustrates the physical architecture of the system, including:
 - **Client Devices**: Devices used by users to interact with the chatbot.
-- **Server**: Hosts the application logic and backend services.
-- **Database**: Stores user data and knowledge documents.
+- **Dockerized Deployment Server**: Hosts the application logic and backend services within Docker containers for consistency and portability.
+- **CI/CD Server**: automates testing , building , and deployment.
+- **GitHub Repository Registry**: Stores the application code and manages version control.
 
 ---
 
@@ -135,7 +144,3 @@ The component diagram provides a high-level view of system modules and their int
 - **Backend Module**: Processes requests and responses.
 - **Database Module**: Manages data storage and retrieval.
 
----
-
-## Conclusion
-This documentation provides a complete overview of the chatbot system, including use cases, conceptual design, and detailed implementation diagrams. It serves as a reference for both development and future maintenance of the project.
